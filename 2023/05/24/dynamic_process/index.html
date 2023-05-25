@@ -16,16 +16,16 @@
   <meta name="author" content="yoho">
   <meta name="keywords" content="">
   
-    <meta name="description" content="dp分析方法   状态表示 &gt; - 集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断 max、min、count等 状态计算 &gt; - 针对状态集合的划分，获得状态转移方程，保证不重不漏   1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为w">
+    <meta name="description" content="dp分析方法   状态表示    集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 属性：根据题意判断 max、min、count等      状态计算    针对状态集合的划分，获得状态转移方程，保证不重不漏    1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dynamic_process">
 <meta property="og:url" content="http://example.com/2023/05/24/dynamic_process/index.html">
 <meta property="og:site_name" content="nullptr">
-<meta property="og:description" content="dp分析方法   状态表示 &gt; - 集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断 max、min、count等 状态计算 &gt; - 针对状态集合的划分，获得状态转移方程，保证不重不漏   1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为w">
+<meta property="og:description" content="dp分析方法   状态表示    集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 属性：根据题意判断 max、min、count等      状态计算    针对状态集合的划分，获得状态转移方程，保证不重不漏    1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/1.jpg">
 <meta property="article:published_time" content="2023-05-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-05-25T12:35:09.451Z">
+<meta property="article:modified_time" content="2023-05-25T12:41:25.887Z">
 <meta property="article:author" content="yoho">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="C++">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k 字
+          2.1k 字
         
       </span>
     
@@ -280,12 +280,25 @@
                 <h3 id="dp分析方法">dp分析方法</h3>
 <blockquote>
 <ul>
-<li>状态表示 &gt; - 集合：设置一个状态集合f[i,j]
-(维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断
-max、min、count等</li>
-<li>状态计算 &gt; -
-针对状态集合的划分，获得状态转移方程，保证不重不漏</li>
+<li>状态表示</li>
 </ul>
+<blockquote>
+<ul>
+<li>集合：设置一个状态集合f[i,j]
+(维度根据要求增减)，将所有可能的情况包含进去</li>
+<li>属性：根据题意判断 max、min、count等</li>
+</ul>
+</blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li>状态计算</li>
+</ul>
+<blockquote>
+<ul>
+<li>针对状态集合的划分，获得状态转移方程，保证不重不漏</li>
+</ul>
+</blockquote>
 </blockquote>
 <h3 id="背包">1.背包</h3>
 <h4 id="背包-1">(1)01背包</h4>
@@ -293,8 +306,8 @@ max、min、count等</li>
 <p>N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为wi，体积为vi。</p>
 </blockquote>
 <blockquote>
-<p>**$ f[i,j]=max(f[i-1,j],f[i-1,j-V^i]+W^i) <span class="math inline">\(**
-,\)</span>f[i,j]$表示从前i个物品选，体积为j的所有选法，状态集合划分为两类不用第i件物品和使用第i件物品</p>
+<p><strong><span class="math inline">\(f[i,j]=max(f[i-1,j],f[i-1,j-V^i]+W^i)\)</span></strong>
+, <span class="math inline">\(f[i,j]\)</span>表示从前i个物品选，体积为j的所有选法，状态集合划分为两类不用第i件物品和使用第i件物品</p>
 </blockquote>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//朴素做法</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>        f[i][j] = f[i - <span class="hljs-number">1</span>][j];<br>        <span class="hljs-keyword">if</span> (j &gt;= v[i]) f[i][j] = <span class="hljs-built_in">max</span>(f[i][j], f[i - <span class="hljs-number">1</span>][j - v[i]] + w[i]);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//代码层面的维度优化</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = m; j &gt;= v[i]; j -- )<br>        f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v[i]] + w[i]);<br></code></pre></td></tr></table></figure>
 <h4 id="完全背包">(2)完全背包</h4>
@@ -302,12 +315,14 @@ max、min、count等</li>
 <p>N件物品，容量为V的背包，可以用无限次，第i件物品价值为wi，体积为vi。</p>
 </blockquote>
 <blockquote>
-<p>**$f[i,j]=f[i-1,j-k*v^i]+k<em>w^i <span class="math inline">\(**
-,其中\)</span>f[i,j]<span class="math inline">\(表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且\)</span>k</em>vi&lt;j$。</p>
+<p><strong><span class="math inline">\(f[i,j]=f[i-1,j-k*v^i]+k*w^i\)</span></strong> ,
+其中 <span class="math inline">\(f[i,j]\)</span>
+表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且
+<span class="math inline">\(k*vi&lt;j\)</span> 。</p>
 </blockquote>
 <blockquote>
-<p><strong>$ f[i,j]=max(f[i-1,j],f[i,j-v^i]+w^i)$</strong>
-,将f[i,j]和f[i,j-v]展开可以进行优化获得上述转移方程</p>
+<p><strong>$ f[i,j]=max(f[i-1,j],f[i,j-v^i]+w^i)$</strong> ,将 <span class="math inline">\(f[i,j]\)</span> 和 <span class="math inline">\(f[i,j-v]\)</span>
+展开可以进行优化获得上述转移方程</p>
 </blockquote>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//朴素做法</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=m;j++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k*v[i]&lt;=j;k++)&#123;<br>            f[i][j]=<span class="hljs-built_in">max</span>(f[i][j],f[i<span class="hljs-number">-1</span>][j-k*v[i]]+k*M[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//优化做法</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=v[i];j&lt;=m;j++)&#123;<br>        f[j]=<span class="hljs-built_in">max</span>(f[j],f[j-v[i]]+M[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h4 id="多重背包">(3)多重背包</h4>
@@ -315,9 +330,10 @@ max、min、count等</li>
 <p>N件物品，容量为V的背包，第i件物品最多有 <span class="math inline">\(S^i\)</span> 件，第i件物品价值为wi，体积为vi。</p>
 </blockquote>
 <blockquote>
-<p>**$f[i,j]=f[i-1,j-k*v^i]+k<em>w^i <span class="math inline">\(**
-,其中\)</span>f[i,j]<span class="math inline">\(表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且\)</span>k</em>vi&lt;j,
-k&lt;=S^i,O(NVS)$</p>
+<p><strong><span class="math inline">\(f[i,j]=f[i-1,j-k*v^i]+k*w^i\)</span></strong>
+,其中 <span class="math inline">\(f[i,j]\)</span>
+表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且
+<span class="math inline">\(k*vi&lt;j, k&lt;=S^i,O(NVS)\)</span></p>
 </blockquote>
 <blockquote>
 <p>使用二进制优化,对每个物品个数<span class="math inline">\(S^i\)</span>,预处理出<span class="math inline">\(logS^i\)</span>个物品的价值和体积,每个只能使用一次,相当于转化成多个零一背包，<span class="math inline">\(O(NVlogS)\)</span></p>
