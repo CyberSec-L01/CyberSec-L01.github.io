@@ -16,16 +16,16 @@
   <meta name="author" content="yoho">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1. vector, 变长数组，倍增的思想  size() 返回元素个数 empty() 返回是否为空 clear() 清空 front()&#x2F;back() push_back()&#x2F;pop_back() begin()&#x2F;end() [] &gt; 支持比较运算，按字典序  2. pair&lt;int, int&gt;  first, 第一个元素 second, 第二个元素">
+    <meta name="description" content="dp分析方法   状态表示 &gt; - 集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断 max、min、count等 状态计算 &gt; - 针对状态集合的划分，获得状态转移方程，保证不重不漏   1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为w">
 <meta property="og:type" content="article">
-<meta property="og:title" content="STL">
-<meta property="og:url" content="http://example.com/2023/05/15/STL/index.html">
+<meta property="og:title" content="dynamic_process">
+<meta property="og:url" content="http://example.com/2023/05/24/dynamic_process/index.html">
 <meta property="og:site_name" content="nullptr">
-<meta property="og:description" content="1. vector, 变长数组，倍增的思想  size() 返回元素个数 empty() 返回是否为空 clear() 清空 front()&#x2F;back() push_back()&#x2F;pop_back() begin()&#x2F;end() [] &gt; 支持比较运算，按字典序  2. pair&lt;int, int&gt;  first, 第一个元素 second, 第二个元素">
+<meta property="og:description" content="dp分析方法   状态表示 &gt; - 集合：设置一个状态集合f[i,j] (维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断 max、min、count等 状态计算 &gt; - 针对状态集合的划分，获得状态转移方程，保证不重不漏   1.背包 (1)01背包  N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为w">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/1.jpg">
-<meta property="article:published_time" content="2023-05-15T11:15:07.000Z">
-<meta property="article:modified_time" content="2023-05-17T11:14:13.718Z">
+<meta property="article:published_time" content="2023-05-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-25T12:35:09.451Z">
 <meta property="article:author" content="yoho">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="C++">
@@ -34,7 +34,7 @@
   
   
   
-  <title>STL - nullptr</title>
+  <title>dynamic_process - nullptr</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="STL"></span>
+            <span id="subtitle" data-typed-text="dynamic_process"></span>
           
         </div>
 
@@ -211,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-05-15 19:15" pubdate>
-          2023年5月15日 晚上
+        <time datetime="2023-05-24 00:00" pubdate>
+          2023年5月24日 凌晨
         </time>
       </span>
     
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.2k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          17 分钟
+          18 分钟
         
       </span>
     
@@ -272,141 +272,66 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">STL</h1>
+            <h1 style="display: none">dynamic_process</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="vector-变长数组倍增的思想">1. vector, 变长数组，倍增的思想</h3>
-<ul>
-<li>size() 返回元素个数</li>
-<li>empty() 返回是否为空</li>
-<li>clear() 清空</li>
-<li>front()/back()</li>
-<li>push_back()/pop_back()</li>
-<li>begin()/end()</li>
-<li>[] &gt; 支持比较运算，按字典序</li>
-</ul>
-<h3 id="pairint-int">2. pair&lt;int, int&gt;</h3>
-<ul>
-<li>first, 第一个元素</li>
-<li>second, 第二个元素 &gt;
-支持比较运算，以first为第一关键字，以second为第二关键字（字典序）</li>
-</ul>
-<h3 id="string字符串">3. string，字符串</h3>
-<ul>
-<li>size()/length() 返回字符串长度</li>
-<li>empty()</li>
-<li>clear()</li>
-<li>substr(起始下标，(子串长度)) 返回子串</li>
-<li>c_str() 返回字符串所在字符数组的起始地址</li>
-</ul>
-<h3 id="queue-队列">4. queue, 队列</h3>
-<ul>
-<li>size()</li>
-<li>empty()</li>
-<li>push() 向队尾插入一个元素</li>
-<li>front() 返回队头元素</li>
-<li>back() 返回队尾元素</li>
-<li>pop() 弹出队头元素</li>
-</ul>
-<h3 id="priority_queue-优先队列默认是大根堆">5. priority_queue,
-优先队列，默认是大根堆</h3>
-<ul>
-<li>size()</li>
-<li>empty()</li>
-<li>push() 插入一个元素</li>
-<li>top() 返回堆顶元素</li>
-<li>pop() 弹出堆顶元素 &gt; 定义成小根堆的方式：priority_queue&lt;int,
-vector<int>, greater<int>&gt; q;</int></int></li>
-</ul>
-<h3 id="stack-栈">6. stack, 栈</h3>
-<ul>
-<li>size()</li>
-<li>empty()</li>
-<li>push() 向栈顶插入一个元素</li>
-<li>top() 返回栈顶元素</li>
-<li>pop() 弹出栈顶元素</li>
-</ul>
-<h3 id="deque-双端队列">7. deque, 双端队列</h3>
-<ul>
-<li>size()</li>
-<li>empty()</li>
-<li>clear()</li>
-<li>front()/back()</li>
-<li>push_back()/pop_back()</li>
-<li>push_front()/pop_front()</li>
-<li>begin()/end()</li>
-<li>[]</li>
-</ul>
-<h3 id="set-map-multiset-multimap">8. set, map, multiset, multimap</h3>
+                <h3 id="dp分析方法">dp分析方法</h3>
 <blockquote>
-<p>基于平衡二叉树（红黑树），动态维护有序序列 - size() - empty() -
-clear() - begin()/end() - ++, -- 返回前驱和后继，时间复杂度 O(logn)</p>
-</blockquote>
 <ul>
-<li>set/multiset
-<ul>
-<li>insert() 插入一个数</li>
-<li>find() 查找一个数</li>
-<li>count() 返回某一个数的个数</li>
-<li>erase()
-<ol type="1">
-<li>输入是一个数x，删除所有x O(k + logn)</li>
-<li>输入一个迭代器，删除这个迭代器</li>
-</ol></li>
-<li>lower_bound()/upper_bound()
-<ol type="1">
-<li>lower_bound(x) 返回大于等于x的最小的数的迭代器</li>
-<li>upper_bound(x) 返回大于x的最小的数的迭代器</li>
-</ol></li>
-</ul></li>
-<li>map/multimap
-<ul>
-<li>insert() 插入的数是一个pair</li>
-<li>erase() 输入的参数是pair或者迭代器</li>
-<li>find()</li>
-<li>[] 注意multimap不支持此操作。 时间复杂度是 O(logn)</li>
-<li>lower_bound()/upper_bound()</li>
-</ul></li>
+<li>状态表示 &gt; - 集合：设置一个状态集合f[i,j]
+(维度根据要求增减)，将所有可能的情况包含进去 &gt; - 属性：根据题意判断
+max、min、count等</li>
+<li>状态计算 &gt; -
+针对状态集合的划分，获得状态转移方程，保证不重不漏</li>
 </ul>
-<h3 id="unordered_set-unordered_map-unordered_multiset-unordered_multimap-哈希表">9.
-unordered_set, unordered_map, unordered_multiset, unordered_multimap,
-哈希表</h3>
+</blockquote>
+<h3 id="背包">1.背包</h3>
+<h4 id="背包-1">(1)01背包</h4>
 <blockquote>
-<p>和上面类似，增删改查的时间复杂度是 O(1) 不支持
-lower_bound()/upper_bound()， 迭代器的++，--</p>
+<p>N件物品，容量为V的背包，每件物品只能用一次(可以不用)，第i件物品价值为wi，体积为vi。</p>
 </blockquote>
-<h3 id="bitset-圧位二进制运算">10. bitset, 圧位,二进制运算</h3>
-<ul>
-<li><p>bitset&lt;10000&gt; s;</p></li>
-<li><p>~, &amp;, |, ^</p></li>
-<li><p>&gt;&gt;, &lt;&lt;</p></li>
-<li><p>==, !=</p></li>
-<li><p>[] 随机存取</p></li>
-<li><p>count() 返回有多少个1</p></li>
-<li><p>any() 判断是否至少有一个1</p></li>
-<li><p>none() 判断是否全为0</p></li>
-<li><p>set() 把所有位置成1</p></li>
-<li><p>set(k, v) 将第k位变成v</p></li>
-<li><p>reset() 把所有位变成0</p></li>
-<li><p>flip() 等价于~</p></li>
-<li><p>flip(k) 把第k位取反</p></li>
-</ul>
-<h3 id="由数据范围反推算法复杂度以及算法内容">由数据范围反推算法复杂度以及算法内容</h3>
-<ul>
-<li><span class="math inline">\(n\leq30\)</span>,指数级别，dfs+剪枝，状态压缩dp</li>
-<li><span class="math inline">\(n\leq100=&gt;O(n^3)\)</span>,floyd,dp,高斯消元</li>
-<li><span class="math inline">\(n\leq1000=&gt;O(n^2),O(n^2logn)\)</span>,dp，二分，朴素版Dijkstra、朴素版Prim、Bellman-Ford</li>
-<li><span class="math inline">\(n\leq10000=&gt;O(n*\sqrt{n})\)</span>,块状链表、分块、莫队</li>
-<li><span class="math inline">\(n\leq1e5=&gt;O(nlogn)\)</span>,各种sort，线段树、树状数组、set/map、heap、拓扑排序、dijkstra+heap、prim+heap、Kruskal、spfa、求凸包、求半平面交、二分、CDQ分治、整体二分、后缀数组、树链剖分、动态树</li>
-<li><span class="math inline">\(n\leq1e6=&gt;O(n)\)</span>单调队列、
-hash、双指针扫描、并查集，kmp、AC自动机。以及小常数的<span class="math inline">\(O(nlogn)\)</span>,sort、树状数组、heap、dijkstra、spfa</li>
-<li><span class="math inline">\(n\leq1e7=&gt;O(n)\)</span>,双指针扫描、kmp、AC自动机、线性筛素数</li>
-<li><span class="math inline">\(n\leq1e9=&gt;o(\sqrt{n})\)</span>,判断质数</li>
-<li><span class="math inline">\(n\leq1e18=&gt;O(logn)\)</span>,最大公约数，快速幂，数位DP</li>
-<li><span class="math inline">\(n\leq1e1000=&gt;O((logn)^2),O(logk*loglogk)\)</span>高精度加减乘除、FFT/NTT（k表示位数）</li>
-</ul>
+<blockquote>
+<p>**$ f[i,j]=max(f[i-1,j],f[i-1,j-V^i]+W^i) <span class="math inline">\(**
+,\)</span>f[i,j]$表示从前i个物品选，体积为j的所有选法，状态集合划分为两类不用第i件物品和使用第i件物品</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//朴素做法</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>        f[i][j] = f[i - <span class="hljs-number">1</span>][j];<br>        <span class="hljs-keyword">if</span> (j &gt;= v[i]) f[i][j] = <span class="hljs-built_in">max</span>(f[i][j], f[i - <span class="hljs-number">1</span>][j - v[i]] + w[i]);<br>    &#125;<br>&#125;<br><span class="hljs-comment">//代码层面的维度优化</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = m; j &gt;= v[i]; j -- )<br>        f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v[i]] + w[i]);<br></code></pre></td></tr></table></figure>
+<h4 id="完全背包">(2)完全背包</h4>
+<blockquote>
+<p>N件物品，容量为V的背包，可以用无限次，第i件物品价值为wi，体积为vi。</p>
+</blockquote>
+<blockquote>
+<p>**$f[i,j]=f[i-1,j-k*v^i]+k<em>w^i <span class="math inline">\(**
+,其中\)</span>f[i,j]<span class="math inline">\(表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且\)</span>k</em>vi&lt;j$。</p>
+</blockquote>
+<blockquote>
+<p><strong>$ f[i,j]=max(f[i-1,j],f[i,j-v^i]+w^i)$</strong>
+,将f[i,j]和f[i,j-v]展开可以进行优化获得上述转移方程</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//朴素做法</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=m;j++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k*v[i]&lt;=j;k++)&#123;<br>            f[i][j]=<span class="hljs-built_in">max</span>(f[i][j],f[i<span class="hljs-number">-1</span>][j-k*v[i]]+k*M[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//优化做法</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=v[i];j&lt;=m;j++)&#123;<br>        f[j]=<span class="hljs-built_in">max</span>(f[j],f[j-v[i]]+M[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="多重背包">(3)多重背包</h4>
+<blockquote>
+<p>N件物品，容量为V的背包，第i件物品最多有 <span class="math inline">\(S^i\)</span> 件，第i件物品价值为wi，体积为vi。</p>
+</blockquote>
+<blockquote>
+<p>**$f[i,j]=f[i-1,j-k*v^i]+k<em>w^i <span class="math inline">\(**
+,其中\)</span>f[i,j]<span class="math inline">\(表示从前i个物品选，体积为j的所有选法，状态集合划分为k(i的选取个数)类，且\)</span>k</em>vi&lt;j,
+k&lt;=S^i,O(NVS)$</p>
+</blockquote>
+<blockquote>
+<p>使用二进制优化,对每个物品个数<span class="math inline">\(S^i\)</span>,预处理出<span class="math inline">\(logS^i\)</span>个物品的价值和体积,每个只能使用一次,相当于转化成多个零一背包，<span class="math inline">\(O(NVlogS)\)</span></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//朴素做法</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=m;j++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k*v[i]&lt;=j&amp;&amp;k&lt;=s[i];k++)&#123;<br>            f[i][j]=<span class="hljs-built_in">max</span>(f[i][j],f[i<span class="hljs-number">-1</span>][j-k*v[i]]+k*M[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">//优化</span><br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-type">int</span> a,b,s,k=<span class="hljs-number">1</span>;<br>    cin&gt;&gt;a&gt;&gt;b&gt;&gt;s;<br>    <span class="hljs-keyword">while</span>(k&lt;=s)&#123;<br>        cnt++;<br>        v[cnt]=k*a;<br>        M[cnt]=k*b;<br>        s-=k;<br>        k*=<span class="hljs-number">2</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span>(s!=<span class="hljs-number">0</span>)&#123;<br>        cnt++;<br>        v[cnt]=s*a;<br>        M[cnt]=s*b;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=cnt;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=m;j&gt;=v[i];j--)&#123;<br>        f[j]=<span class="hljs-built_in">max</span>(f[j],f[j-v[i]]+M[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="分组背包">(4)分组背包</h4>
+<blockquote>
+<p>N组物品，容量为V的背包，每组物品若干，同一组内只能选一个，第i件物品价值为wij，体积为vij。</p>
+</blockquote>
+<blockquote>
+<p><strong><span class="math inline">\(f[i,j]=max(f[i-1,j],f[i-1,j-v[i][k]]+w[i][k])\)</span></strong>
+,其中<span class="math inline">\(f[i,j]\)</span>表示从前i组物品选，体积为j的所有选法，状态集合划分为选第i组的第几个物品或不选</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=m;j&gt;=<span class="hljs-number">0</span>;j--)&#123;  <span class="hljs-comment">//枚举体积</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;s[i];k++)&#123; <span class="hljs-comment">//枚举组内选择</span><br>            <span class="hljs-keyword">if</span>(j&gt;=v[i][k])&#123;<br>                f[j]=<span class="hljs-built_in">max</span>(f[j],f[j-v[i][k]]+w[i][k]);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -430,7 +355,7 @@ hash、双指针扫描、并查集，kmp、AC自动机。以及小常数的<span
   
     <span>></span>
     
-  <a href="/categories/C/STL/" class="category-chain-item">STL</a>
+  <a href="/categories/C/Algorithm/" class="category-chain-item">Algorithm</a>
   
   
 
@@ -461,8 +386,8 @@ hash、双指针扫描、并查集，kmp、AC自动机。以及小常数的<span
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>STL</div>
-      <div>http://example.com/2023/05/15/STL/</div>
+      <div>dynamic_process</div>
+      <div>http://example.com/2023/05/24/dynamic_process/</div>
     </div>
     <div class="license-meta">
       
@@ -474,7 +399,7 @@ hash、双指针扫描、并查集，kmp、AC自动机。以及小常数的<span
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年5月15日</div>
+          <div>2023年5月24日</div>
         </div>
       
       
@@ -506,18 +431,12 @@ hash、双指针扫描、并查集，kmp、AC自动机。以及小常数的<span
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/05/24/dynamic_process/" title="dynamic_process">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">dynamic_process</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/05/15/basic_algorithm/" title="基础算法">
-                        <span class="hidden-mobile">基础算法</span>
+                      <a href="/2023/05/15/STL/" title="STL">
+                        <span class="hidden-mobile">STL</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
